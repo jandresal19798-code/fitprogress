@@ -7,7 +7,7 @@ const generateToken = (userId) => {
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, age, weight, goal } = req.body;
+    const { name, email, password, age, weight, height, goal, experienceLevel, equipment, parqPassed } = req.body;
 
     // Check if user exists
     let existingUser = await User.findOne({ email });
@@ -20,7 +20,11 @@ exports.register = async (req, res) => {
       password,
       age: Number(age),
       weight: Number(weight),
+      height: Number(height) || 170,
       goal,
+      experienceLevel: experienceLevel || 'principiante',
+      equipment: equipment || 'sin_equipo',
+      parqPassed: parqPassed !== false,
       role: email === 'admin@fitprogress.com' ? 'admin' : 'user'
     });
 
@@ -29,7 +33,7 @@ exports.register = async (req, res) => {
     const token = generateToken(user._id);
     res.status(201).json({
       token,
-      user: { id: user._id, name: user.name, email: user.email, age, weight, goal, role: user.role }
+      user: { id: user._id, name: user.name, email: user.email, age, weight, height, goal, experienceLevel, equipment, parqPassed, role: user.role }
     });
   } catch (err) {
     console.error('Register Error:', err.message);
