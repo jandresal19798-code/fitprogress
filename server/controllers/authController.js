@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
     const token = generateToken(user._id);
     res.status(201).json({
       token,
-      user: { id: user._id, name: user.name, email: user.email, age, weight, goal }
+      user: { id: user._id, name: user.name, email: user.email, age, weight, goal, role: user.role }
     });
   } catch (err) {
     console.error('Register Error:', err.message);
