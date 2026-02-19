@@ -40,7 +40,7 @@ const ChatBot = () => {
                     ...messages.map(m => ({ role: m.role, content: m.content })),
                     { role: 'user', content: input }
                 ],
-                model: "mixtral-8x7b-32768",
+                model: "llama-3.3-70b-versatile",
                 temperature: 0.5,
                 max_tokens: 1024,
                 top_p: 1,
@@ -96,8 +96,8 @@ const ChatBot = () => {
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
-                                        ? 'bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-tr-sm shadow-md'
-                                        : 'bg-slate-800 text-slate-200 rounded-tl-sm border border-white/5 shadow-sm'
+                                    ? 'bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-tr-sm shadow-md'
+                                    : 'bg-slate-800 text-slate-200 rounded-tl-sm border border-white/5 shadow-sm'
                                     }`}>
                                     {msg.content}
                                 </div>
