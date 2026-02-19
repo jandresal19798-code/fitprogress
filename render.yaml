@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: fitprogress
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_URL
+        sync: false
+    autoDeploy: false

@@ -27,7 +27,8 @@ class ApiService {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.msg || 'Error en la solicitud');
+      const errorMessage = data.error ? `${data.msg}: ${data.error}` : (data.msg || 'Error en la solicitud');
+      throw new Error(errorMessage);
     }
 
     return { data };

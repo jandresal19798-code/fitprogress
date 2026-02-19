@@ -8,27 +8,38 @@ const generateToken = (userId) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password, age, weight, goal } = req.body;
-    
-    const existingUser = await User.findOne({ email });
+
+    // Check if user exists
+    let existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ msg: 'El usuario ya existe' });
 
-    const user = new User({ name, email, password, age, weight, goal });
+    // Create new user
+    const user = new User({
+      name,
+      email,
+      password,
+      age: Number(age),
+      weight: Number(weight),
+      goal
+    });
+
     await user.save();
 
     const token = generateToken(user._id);
-    res.status(201).json({ 
-      token, 
-      user: { id: user._id, name: user.name, email: user.email, age, weight, goal } 
+    res.status(201).json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email, age, weight, goal }
     });
   } catch (err) {
-    res.status(500).json({ msg: 'Error del servidor', error: err.message });
+    console.error('Register Error:', err.message);
+    res.status(500).json({ msg: 'Error del servidor en registro', error: err.message });
   }
 };
 
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: 'Credenciales inválidas' });
 
@@ -36,12 +47,13 @@ exports.login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: 'Credenciales inválidas' });
 
     const token = generateToken(user._id);
-    res.json({ 
-      token, 
-      user: { id: user._id, name: user.name, email: user.email, age: user.age, weight: user.weight, goal: user.goal } 
+    res.json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email, age: user.age, weight: user.weight, goal: user.goal }
     });
   } catch (err) {
-    res.status(500).json({ msg: 'Error del servidor', error: err.message });
+    console.error('Login Error:', err.message);
+    res.status(500).json({ msg: 'Error del servidor en login', error: err.message });
   }
 };
 
@@ -50,6 +62,7 @@ exports.getProfile = async (req, res) => {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
+    console.error('Profile Error:', err.message);
     res.status(500).json({ msg: 'Error del servidor' });
   }
 };
@@ -58,12 +71,13 @@ exports.updateProfile = async (req, res) => {
   try {
     const { age, weight, goal } = req.body;
     const user = await User.findByIdAndUpdate(
-      req.user.id, 
+      req.user.id,
       { age, weight, goal },
       { new: true }
     ).select('-password');
     res.json(user);
   } catch (err) {
+    console.error('Update Profile Error:', err.message);
     res.status(500).json({ msg: 'Error del servidor' });
   }
 };

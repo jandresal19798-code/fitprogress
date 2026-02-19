@@ -16,21 +16,44 @@ app.use('/api/auth', authRoutes);
 app.use('/api/routines', routineRoutes);
 app.use('/api/workouts', workoutRoutes);
 
-app.get('/', (req, res) => {
-  res.json({ msg: 'FitProgress API running' });
-});
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.json({ msg: 'FitProgress API running' });
+  });
+}
 
 const PORT = process.env.PORT || 3001;
 const DB_URL = process.env.DB_URL;
 
-mongoose.connect(DB_URL)
-  .then(() => {
+const startServer = async () => {
+  try {
+    await mongoose.connect(DB_URL);
     console.log('Conectado a MongoDB');
-    app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
-  })
-  .catch(err => {
-    console.error('Error conectando a MongoDB:', err);
-    process.exit(1);
-  });
+  } catch (err) {
+    console.log('No se pudo conectar a MongoDB local/remoto. Iniciando base de datos en memoria...');
+    try {
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const mongod = await MongoMemoryServer.create();
+      const uri = mongod.getUri();
+      await mongoose.connect(uri);
+      console.log('Conectado a MongoDB en memoria (Volátil)');
+    } catch (memErr) {
+      console.error('Error fatal: No se pudo iniciar ninguna base de datos', memErr);
+      process.exit(1);
+    }
+  }
+
+  app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+};
+
+startServer();
 
 module.exports = app;
