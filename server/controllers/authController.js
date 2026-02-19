@@ -20,7 +20,8 @@ exports.register = async (req, res) => {
       password,
       age: Number(age),
       weight: Number(weight),
-      goal
+      goal,
+      role: email === 'admin@fitprogress.com' ? 'admin' : 'user'
     });
 
     await user.save();
@@ -42,6 +43,7 @@ exports.login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: 'Credenciales inválidas' });
+    if (user.isBlocked) return res.status(403).json({ msg: 'Cuenta bloqueada por administrador' });
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).json({ msg: 'Credenciales inválidas' });
@@ -49,7 +51,7 @@ exports.login = async (req, res) => {
     const token = generateToken(user._id);
     res.json({
       token,
-      user: { id: user._id, name: user.name, email: user.email, age: user.age, weight: user.weight, goal: user.goal }
+      user: { id: user._id, name: user.name, email: user.email, age: user.age, weight: user.weight, goal: user.goal, role: user.role }
     });
   } catch (err) {
     console.error('Login Error:', err.message);

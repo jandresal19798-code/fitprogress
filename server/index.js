@@ -6,6 +6,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const routineRoutes = require('./routes/routines');
 const workoutRoutes = require('./routes/workouts');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/routines', routineRoutes);
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

@@ -5,11 +5,13 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Routine from './pages/Routine';
 import Progress from './pages/Progress';
+import AdminPanel from './pages/AdminPanel';
 import Navbar from './components/Navbar';
+import ChatBot from './components/ChatBot';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -17,8 +19,16 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   return user ? children : <Navigate to="/login" />;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return null;
+
+  return user && user.role === 'admin' ? children : <Navigate to="/dashboard" />;
 };
 
 function App() {
@@ -42,9 +52,11 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/routine" element={<ProtectedRoute><Routine /></ProtectedRoute>} />
           <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+          <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
           <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
         </Routes>
       </div>
+      {user && <ChatBot />}
     </div>
   );
 }

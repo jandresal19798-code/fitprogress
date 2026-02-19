@@ -18,6 +18,10 @@ const Navbar = () => {
     { path: '/progress', label: 'Progreso' }
   ];
 
+  if (user?.role === 'admin') {
+    navLinks.push({ path: '/admin', label: 'Admin' });
+  }
+
   return (
     <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
       <div className="container mx-auto px-4">
