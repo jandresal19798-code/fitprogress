@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const routineRoutes = require('./routes/routines');
 const workoutRoutes = require('./routes/workouts');
 const adminRoutes = require('./routes/admin');
+const planRoutes = require('./routes/plan');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/routines', routineRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/plan', planRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

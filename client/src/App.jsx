@@ -7,6 +7,7 @@ import Routine from './pages/Routine';
 import Progress from './pages/Progress';
 import AdminPanel from './pages/AdminPanel';
 import Landing from './pages/Landing';
+import Planning from './pages/Planning';
 import Navbar from './components/Navbar';
 import ChatBot from './components/ChatBot';
 
@@ -68,6 +69,11 @@ function App() {
         <Route path="/progress" element={
           <ProtectedRoute>
             <div className="container mx-auto px-4 sm:px-6 py-6"><Progress /></div>
+          </ProtectedRoute>
+        } />
+        <Route path="/planning" element={
+          <ProtectedRoute>
+            <Planning />
           </ProtectedRoute>
         } />
         <Route path="/admin" element={

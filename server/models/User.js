@@ -34,7 +34,9 @@ const userSchema = new mongoose.Schema({
     duration: Number,
     rpe: { type: Number, min: 1, max: 10 }, // Rate of Perceived Exertion
     notes: String
-  }]
+  }],
+  completedDays: [{ type: String }], // format: "YYYY-MM-DD"
+  currentStreak: { type: Number, default: 0 },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
