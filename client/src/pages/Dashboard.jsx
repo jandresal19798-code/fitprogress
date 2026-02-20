@@ -91,6 +91,57 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <button
+          onClick={() => navigate('/routine')}
+          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-green/30"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-neon-green/10 flex items-center justify-center text-neon-green group-hover:scale-110 transition-transform shadow-glow-green/5">
+            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Nueva Rutina</span>
+        </button>
+
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('open-new-workout'))}
+          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-blue/30"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:scale-110 transition-transform shadow-glow-blue/5">
+            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Log Sesión</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/progress')}
+          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-orange/30"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-neon-orange/10 flex items-center justify-center text-neon-orange group-hover:scale-110 transition-transform shadow-glow-orange/5">
+            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Mis Números</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/planning')}
+          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-pink/30"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-neon-pink/10 flex items-center justify-center text-neon-pink group-hover:scale-110 transition-transform shadow-glow-pink/5">
+            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Calendario</span>
+        </button>
+      </div>
+
       {/* Primary Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="card group border-l-4 border-l-neon-green">

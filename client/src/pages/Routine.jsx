@@ -111,15 +111,24 @@ const Routine = () => {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [rpeSubmitted, setRpeSubmitted] = useState(false);
+  const [showRpe, setShowRpe] = useState(false);
+  const [selectedRpe, setSelectedRpe] = useState(null);
+
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    fetchRoutine();
+    loadData();
   }, []);
 
-  const fetchRoutine = async () => {
+  const loadData = async () => {
     try {
-      const res = await api.get('/routines');
-      setRoutine(res.data);
+      const [routineRes, statsRes] = await Promise.all([
+        api.get('/routines'),
+        api.get('/workouts/stats')
+      ]);
+      setRoutine(routineRes.data);
+      setStats(statsRes.data);
     } catch (err) {
       if (err.response?.status !== 404) setError('Error al cargar la rutina');
     } finally {
@@ -133,12 +142,28 @@ const Routine = () => {
     try {
       const res = await api.post('/routines/generate');
       setRoutine(res.data);
+      setShowRpe(false);
+      setRpeSubmitted(false);
     } catch (err) {
       setError(err.response?.data?.msg || 'Error al generar rutina');
     } finally {
       setGenerating(false);
     }
   };
+
+  const submitRpe = async (rpe) => {
+    setSelectedRpe(rpe);
+    try {
+      await api.post('/routines/rpe', { rpe, duration: routine?.totalDuration });
+      setRpeSubmitted(true);
+      setShowRpe(false);
+    } catch (err) {
+      console.error('Error al guardar RPE');
+    }
+  };
+
+  const rpeLabels = ['', '😴 Muy fácil', '😌 Fácil', '🙂 Ligero', '😊 Moderado', '😐 Un poco duro', '😮 Duro', '😤 Muy duro', '😰 Extremo', '🥵 Máximo esfuerzo', '💀 Límite absoluto'];
+  const rpeColors = ['', 'bg-cyan-500', 'bg-blue-500', 'bg-teal-500', 'bg-green-500', 'bg-lime-500', 'bg-yellow-500', 'bg-orange-400', 'bg-orange-500', 'bg-red-500', 'bg-red-700'];
 
   if (loading) {
     return (
@@ -165,14 +190,60 @@ const Routine = () => {
           <p className="text-slate-400 font-medium text-lg ml-5 max-w-xl">Entrenamiento adaptativo basado en ciencia para tus objetivos de <span className="text-white font-bold">{routine?.trainingType || 'alto rendimiento'}</span>.</p>
         </div>
 
-        <button
-          onClick={generateRoutine}
-          disabled={generating}
-          className="btn-primary !py-5 !px-10 shadow-glow-green/30 group"
-        >
-          {generating ? 'ANALIZANDO...' : '⚡ GENERAR NUEVA'}
-        </button>
+        <div className="flex gap-4">
+          {routine && !showRpe && !rpeSubmitted && (
+            <button
+              onClick={() => setShowRpe(true)}
+              className="btn-secondary !py-5 !px-8 border-neon-orange/20 text-neon-orange hover:bg-neon-orange/10"
+            >
+              📊 REPORTAR RPE
+            </button>
+          )}
+          <button
+            onClick={generateRoutine}
+            disabled={generating}
+            className="btn-primary !py-5 !px-10 shadow-glow-green/30 group"
+          >
+            {generating ? 'ANALIZANDO...' : '⚡ GENERAR NUEVA'}
+          </button>
+        </div>
       </header>
+
+      {/* RPE Widget */}
+      {showRpe && (
+        <div className="card border-neon-orange/20 animate-slide-up">
+          <h3 className="text-2xl font-display font-black text-white uppercase mb-2">¿Cómo estuvo tu entrenamiento?</h3>
+          <p className="text-slate-500 text-sm mb-8 italic">Escala RPE: Tu respuesta ajustará la intensidad de las próximas sesiones automáticamente.</p>
+          <div className="grid grid-cols-5 sm:grid-cols-10 gap-3">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+              <button
+                key={n}
+                onClick={() => submitRpe(n)}
+                className={`${rpeColors[n]} aspect-square rounded-2xl text-slate-950 font-black text-xl hover:scale-110 active:scale-95 transition-all shadow-xl hover:brightness-110`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+          <div className="flex justify-between text-[10px] text-slate-500 font-black uppercase tracking-widest mt-6 px-2">
+            <span>Muy fácil</span>
+            <span>Límite absoluto</span>
+          </div>
+          <button onClick={() => setShowRpe(false)} className="mt-8 text-xs font-black text-slate-600 hover:text-white uppercase tracking-widest">Cerrar</button>
+        </div>
+      )}
+
+      {rpeSubmitted && (
+        <div className="card !bg-neon-green/10 border-neon-green/20 text-neon-green p-6 flex items-center gap-4 animate-fade-in">
+          <div className="w-10 h-10 bg-neon-green text-black rounded-full flex items-center justify-center shadow-glow-green">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+          </div>
+          <div>
+            <div className="font-black text-[13px] uppercase tracking-widest">¡Esfuerzo registrado (RPE: {selectedRpe})!</div>
+            <p className="text-xs text-slate-400 mt-1">{rpeLabels[selectedRpe]}. El algoritmo ajustará tu próxima sesión.</p>
+          </div>
+        </div>
+      )}
 
       {/* Filter / Search Bar */}
       {routine && (
@@ -222,9 +293,9 @@ const Routine = () => {
               <div className="text-[10px] font-black text-neon-green mt-2 uppercase tracking-widest">MINUTOS</div>
             </div>
             <div className="card !p-6 text-center border-t-4 border-t-neon-orange">
-              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Esfuerzo</div>
-              <div className="text-3xl font-display font-black text-white">RPE 8</div>
-              <div className="text-[10px] font-black text-neon-orange mt-2 uppercase tracking-widest">OBJETIVO</div>
+              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Último RPE</div>
+              <div className="text-3xl font-display font-black text-white">{selectedRpe || 'N/A'}</div>
+              <div className="text-[10px] font-black text-neon-orange mt-2 uppercase tracking-widest">ESFUERZO</div>
             </div>
             <div className="card !p-6 text-center border-t-4 border-t-neon-pink">
               <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Estructura</div>
@@ -232,6 +303,19 @@ const Routine = () => {
               <div className="text-[10px] font-black text-neon-pink mt-2 uppercase tracking-widest">FASES</div>
             </div>
           </div>
+
+          {/* Progressive Overload Note */}
+          {routine.notes && (
+            <div className="card !bg-neon-pink/5 border-neon-pink/10 p-6 flex gap-4 items-start">
+              <div className="w-10 h-10 rounded-xl bg-neon-pink/20 flex items-center justify-center text-neon-pink shadow-glow-pink/10 flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <div className="text-[10px] text-neon-pink font-black uppercase tracking-widest mb-1">Nota del Algoritmo: Sobrecarga Progresiva</div>
+                <p className="text-slate-300 text-sm italic">{routine.notes}</p>
+              </div>
+            </div>
+          )}
 
           <div className="space-y-4">
             {routine.warmup?.length > 0 && <PhaseSection title="Calentamiento Dinámico" phase="warmup" exercises={routine.warmup} filter={searchTerm} />}
