@@ -2,132 +2,103 @@ import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
 const BMI_INFO = {
-  bajo_peso: { label: 'Bajo Peso', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', desc: 'Enfoque en hipertrofia y fuerza multiarticular' },
-  normal: { label: 'Normal', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20', desc: 'Periodización mixta: fuerza + resistencia + flexibilidad' },
-  sobrepeso: { label: 'Sobrepeso', color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20', desc: 'Fuerza metabólica + cardio moderado' },
-  obesidad: { label: 'Obesidad', color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20', desc: 'Bajo impacto. Fuerza para elevar metabolismo basal' }
+  bajo_peso: { label: 'Bajo Peso', color: 'text-neon-blue', bg: 'bg-neon-blue/10 border-neon-blue/20', desc: 'Enfoque en hipertrofia y fuerza multiarticular' },
+  normal: { label: 'Normal', color: 'text-neon-green', bg: 'bg-neon-green/10 border-neon-green/20', desc: 'Periodización mixta: fuerza + resistencia + flexibilidad' },
+  sobrepeso: { label: 'Sobrepeso', color: 'text-neon-orange', bg: 'bg-neon-orange/10 border-neon-orange/20', desc: 'Fuerza metabólica + cardio moderado' },
+  obesidad: { label: 'Obesidad', color: 'text-neon-pink', bg: 'bg-neon-pink/10 border-neon-pink/20', desc: 'Bajo impacto. Fuerza para elevar metabolismo basal' }
 };
 
 const PhaseIcon = ({ phase }) => {
   const icons = {
-    warmup: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />,
-    core: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />,
-    main: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />,
-    cooldown: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+    warmup: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />,
+    core: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />,
+    main: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />,
+    cooldown: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
   };
   return (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       {icons[phase]}
     </svg>
   );
 };
 
 const ExerciseCard = ({ exercise, index }) => (
-  <div className="group bg-slate-800/50 border border-white/5 rounded-2xl overflow-hidden hover:border-green-500/20 hover:translate-y-[-2px] transition-all duration-300">
-    {exercise.image && (
-      <div className="h-36 overflow-hidden relative">
-        <img
-          src={exercise.image}
-          alt={exercise.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          onError={(e) => { e.target.style.display = 'none'; }}
-        />
-        {exercise.muscleGroup && (
-          <span className="absolute top-2 right-2 text-[10px] font-bold bg-black/60 backdrop-blur-sm text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">
-            {exercise.muscleGroup}
-          </span>
-        )}
-        <span className="absolute top-2 left-2 w-7 h-7 bg-green-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-green-500/30">
-          {index + 1}
+  <div className="group card !p-0 overflow-hidden hover:border-neon-green/30">
+    <div className="relative h-48">
+      <img
+        src={exercise.image || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop"}
+        alt={exercise.name}
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+      <div className="absolute top-4 left-4 w-8 h-8 bg-neon-green text-black rounded-lg flex items-center justify-center font-black text-sm shadow-glow-green">
+        {index + 1}
+      </div>
+      {exercise.muscleGroup && (
+        <span className="absolute top-4 right-4 text-[10px] font-black bg-black/60 backdrop-blur-md text-neon-green px-3 py-1 rounded-full border border-neon-green/30 uppercase tracking-widest">
+          {exercise.muscleGroup}
         </span>
-      </div>
-    )}
-    <div className="p-4">
-      <h4 className="font-bold text-white text-sm mb-1">{exercise.name}</h4>
-      {exercise.description && (
-        <p className="text-slate-500 text-xs mb-3 leading-relaxed">{exercise.description}</p>
       )}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          {exercise.sets && (
-            <span className="text-xs bg-slate-700/60 px-2 py-1 rounded-lg text-slate-300 font-medium">
-              {exercise.sets} series
-            </span>
-          )}
-          {exercise.reps && (
-            <span className="text-xs bg-green-500/10 border border-green-500/20 px-2 py-1 rounded-lg text-green-400 font-medium">
-              {exercise.reps}
-            </span>
-          )}
-        </div>
-        {exercise.youtubeLink && (
-          <a
-            href={exercise.youtubeLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors group/link"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-            </svg>
-            <span className="group-hover/link:underline">Tutorial</span>
-          </a>
-        )}
+    </div>
+    <div className="p-6 space-y-4">
+      <h4 className="font-display font-black text-white text-lg leading-tight uppercase tracking-tight">{exercise.name}</h4>
+      <div className="flex flex-wrap gap-2">
+        {exercise.sets && <span className="text-[10px] font-black bg-slate-800 text-slate-400 px-3 py-1 rounded-lg uppercase tracking-widest">{exercise.sets} SERIES</span>}
+        {exercise.reps && <span className="text-[10px] font-black bg-neon-green/10 text-neon-green px-3 py-1 rounded-lg uppercase tracking-widest border border-neon-green/20">{exercise.reps}</span>}
       </div>
+      <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{exercise.description || 'Enfoque en técnica perfecta y control muscular.'}</p>
+      {exercise.youtubeLink && (
+        <a href={exercise.youtubeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-neon-pink font-black text-[10px] uppercase tracking-widest hover:text-white transition-colors group/link pt-2">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+          <span className="underline decoration-2 underline-offset-4 decoration-neon-pink/30 group-hover/link:decoration-white">Ver Tutorial</span>
+        </a>
+      )}
     </div>
   </div>
 );
 
-const PhaseSection = ({ title, phase, exercises, color }) => {
+const PhaseSection = ({ title, phase, exercises, filter }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const phaseColors = {
-    warmup: 'from-orange-500/20 to-amber-500/10 border-orange-500/20 text-orange-400',
-    core: 'from-purple-500/20 to-violet-500/10 border-purple-500/20 text-purple-400',
-    main: 'from-green-500/20 to-emerald-500/10 border-green-500/20 text-green-400',
-    cooldown: 'from-blue-500/20 to-cyan-500/10 border-blue-500/20 text-blue-400',
+    warmup: 'border-neon-orange/20 text-neon-orange bg-neon-orange/5',
+    core: 'border-neon-pink/20 text-neon-pink bg-neon-pink/5',
+    main: 'border-neon-green/20 text-neon-green bg-neon-green/5',
+    cooldown: 'border-neon-blue/20 text-neon-blue bg-neon-blue/5',
   };
 
+  const filteredExercises = exercises.filter(ex =>
+    ex.name.toLowerCase().includes(filter.toLowerCase()) ||
+    ex.muscleGroup?.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  if (filteredExercises.length === 0) return null;
+
   return (
-    <div className="mb-6">
+    <div className="mb-10 group/phase">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r border ${phaseColors[phase]} mb-3 transition-all hover:brightness-110`}
+        className={`w-full flex items-center justify-between p-6 rounded-3xl border ${phaseColors[phase]} mb-6 transition-all hover:scale-[1.01]`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <PhaseIcon phase={phase} />
-          <span className="font-bold font-display">{title}</span>
-          <span className="text-xs opacity-70 font-normal">({exercises.length} ejercicios)</span>
+          <div>
+            <span className="font-display font-black text-xl uppercase tracking-tighter block leading-none">{title}</span>
+            <span className="text-[10px] font-black opacity-60 uppercase tracking-[0.2em] mt-1">{filteredExercises.length} EJERCICIOS</span>
+          </div>
         </div>
-        <svg className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <div className="w-10 h-10 rounded-full border border-current flex items-center justify-center transition-transform duration-500" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </button>
 
       {isOpen && (
-        <div className="animate-fade-in">
-          {(phase === 'warmup' || phase === 'cooldown') ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {exercises.map((ex, idx) => (
-                <div key={idx} className="bg-slate-800/40 border border-white/5 rounded-2xl p-4 flex items-start gap-3 hover:border-white/10 transition-all">
-                  <div className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${phase === 'warmup' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400'}`}>
-                    {idx + 1}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white text-sm">{ex.name}</p>
-                    <p className={`text-xs font-bold mt-0.5 ${phase === 'warmup' ? 'text-orange-400' : 'text-blue-400'}`}>{ex.duration}</p>
-                    {ex.description && <p className="text-slate-500 text-xs mt-1 leading-relaxed">{ex.description}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {exercises.map((ex, idx) => (
-                <ExerciseCard key={idx} exercise={ex} index={idx} />
-              ))}
-            </div>
-          )}
+        <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredExercises.map((ex, idx) => (
+            <ExerciseCard key={idx} exercise={ex} index={idx} />
+          ))}
         </div>
       )}
     </div>
@@ -139,9 +110,7 @@ const Routine = () => {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
-  const [rpeSubmitted, setRpeSubmitted] = useState(false);
-  const [showRpe, setShowRpe] = useState(false);
-  const [selectedRpe, setSelectedRpe] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchRoutine();
@@ -152,9 +121,7 @@ const Routine = () => {
       const res = await api.get('/routines');
       setRoutine(res.data);
     } catch (err) {
-      if (err.response?.status !== 404) {
-        setError('Error al cargar la rutina');
-      }
+      if (err.response?.status !== 404) setError('Error al cargar la rutina');
     } finally {
       setLoading(false);
     }
@@ -166,209 +133,117 @@ const Routine = () => {
     try {
       const res = await api.post('/routines/generate');
       setRoutine(res.data);
-      setShowRpe(false);
-      setRpeSubmitted(false);
     } catch (err) {
-      if (err.response?.data?.parqBlocked) {
-        setError('⚠️ ' + err.response.data.msg);
-      } else {
-        setError(err.response?.data?.msg || 'Error al generar rutina');
-      }
+      setError(err.response?.data?.msg || 'Error al generar rutina');
     } finally {
       setGenerating(false);
     }
   };
 
-  const submitRpe = async (rpe) => {
-    setSelectedRpe(rpe);
-    try {
-      await api.post('/routines/rpe', { rpe, duration: routine?.totalDuration });
-      setRpeSubmitted(true);
-      setShowRpe(false);
-    } catch (err) {
-      console.error('Error al guardar RPE');
-    }
-  };
-
-  const rpeLabels = ['', '😴 Muy fácil', '😌 Fácil', '🙂 Ligero', '😊 Moderado', '😐 Un poco duro', '😮 Duro', '😤 Muy duro', '😰 Extremo', '🥵 Máximo esfuerzo', '💀 Límite absoluto'];
-  const rpeColors = ['', 'bg-cyan-500', 'bg-blue-500', 'bg-teal-500', 'bg-green-500', 'bg-lime-500', 'bg-yellow-500', 'bg-orange-400', 'bg-orange-500', 'bg-red-500', 'bg-red-700'];
-
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-slate-400">Cargando tu rutina científica...</p>
+      <div className="max-w-6xl mx-auto space-y-12 animate-pulse pb-24">
+        <div className="h-24 w-2/3 bg-slate-800 rounded-3xl"></div>
+        <div className="grid grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-slate-800 rounded-2xl"></div>)}
         </div>
+        <div className="h-[500px] bg-slate-800 rounded-[2rem]"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl animate-fade-in">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-white">Tu Rutina Científica</h1>
-          <p className="text-slate-400 mt-1 text-sm">Generada según tu IMC, edad, nivel y equipamiento</p>
-        </div>
-        <div className="flex gap-3">
-          {routine && !showRpe && !rpeSubmitted && (
-            <button
-              onClick={() => setShowRpe(true)}
-              className="btn-secondary text-sm"
-            >
-              📊 Reportar Esfuerzo (RPE)
-            </button>
-          )}
-          <button
-            onClick={generateRoutine}
-            disabled={generating}
-            className="btn-primary text-sm"
-          >
-            {generating ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                Generando...
-              </span>
-            ) : (
-              <>⚡ {routine ? 'Nueva Rutina' : 'Generar Rutina'}</>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-5 py-4 rounded-2xl mb-6 text-sm">
-          {error}
-        </div>
-      )}
-
-      {/* RPE Widget */}
-      {showRpe && (
-        <div className="card mb-6 animate-slide-up">
-          <h3 className="font-display font-bold text-white mb-2">¿Qué tan difícil fue el entrenamiento?</h3>
-          <p className="text-slate-400 text-xs mb-4">Escala RPE (Rate of Perceived Exertion) del 1 al 10. Tu respuesta ajustará la intensidad futura.</p>
-          <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-              <button
-                key={n}
-                onClick={() => submitRpe(n)}
-                className={`${rpeColors[n]} aspect-square rounded-2xl text-white font-bold text-lg hover:scale-110 transition-all duration-200 shadow-lg`}
-              >
-                {n}
-              </button>
-            ))}
+    <div className="max-w-6xl mx-auto space-y-12 animate-fade-in pb-24">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-10 bg-neon-green rounded-full shadow-glow-green"></div>
+            <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter text-white">
+              TU <span className="text-neon-green">RUTINA</span>
+            </h1>
           </div>
-          <div className="flex justify-between text-xs text-slate-500 mt-2 px-1">
-            <span>😴 Muy fácil</span>
-            <span>💀 Límite</span>
-          </div>
-          <button onClick={() => setShowRpe(false)} className="mt-3 text-xs text-slate-500 hover:text-slate-300 transition-colors">Cancelar</button>
+          <p className="text-slate-400 font-medium text-lg ml-5 max-w-xl">Entrenamiento adaptativo basado en ciencia para tus objetivos de <span className="text-white font-bold">{routine?.trainingType || 'alto rendimiento'}</span>.</p>
         </div>
-      )}
 
-      {rpeSubmitted && (
-        <div className="bg-green-500/10 border border-green-500/30 text-green-400 px-5 py-3 rounded-2xl mb-6 flex items-center gap-2 text-sm animate-fade-in">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          ¡Esfuerzo registrado (RPE: {selectedRpe})! {rpeLabels[selectedRpe]}. El algoritmo ajustará tu próxima sesión.
-        </div>
-      )}
+        <button
+          onClick={generateRoutine}
+          disabled={generating}
+          className="btn-primary !py-5 !px-10 shadow-glow-green/30 group"
+        >
+          {generating ? 'ANALIZANDO...' : '⚡ GENERAR NUEVA'}
+        </button>
+      </header>
 
-      {!routine ? (
-        // Empty State
-        <div className="card text-center py-16 animate-fade-in">
-          <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      {/* Filter / Search Bar */}
+      {routine && (
+        <div className="relative group max-w-2xl">
+          <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-500 group-focus-within:text-neon-green transition-colors">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-display font-bold text-white mb-3">Activa tu entrenamiento científico</h2>
-          <p className="text-slate-400 max-w-md mx-auto mb-8 text-sm leading-relaxed">
-            El algoritmo calculará tu IMC, analizará tu perfil (edad, experiencia, equipamiento) y generará una sesión estructurada con calentamiento, core, bloque principal y vuelta a la calma.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto mb-8">
-            {['🔥 Calentamiento', '🛡️ Core & Estabilidad', '⚡ Bloque Principal', '❄️ Vuelta a la Calma'].map((item, idx) => (
-              <div key={idx} className="bg-slate-800/50 rounded-2xl p-3 text-xs text-slate-400 border border-white/5">
-                {item}
-              </div>
-            ))}
+          <input
+            type="text"
+            placeholder="BUSCAR POR EJERCICIO O GRUPO MUSCULAR..."
+            className="input !pl-16 !py-5 !bg-slate-900 border-white/5 focus:border-neon-green/50 placeholder:text-slate-600 font-bold tracking-widest text-[11px] uppercase"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      )}
+
+      {error && <div className="card !bg-neon-pink/10 border-neon-pink/20 text-neon-pink text-sm font-bold p-6 rounded-2xl animate-fade-in">{error}</div>}
+
+      {!routine ? (
+        <div className="card text-center py-24 border-dashed border-2 border-white/10 group">
+          <div className="w-24 h-24 bg-neon-green/10 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform shadow-glow-green/5">
+            <svg className="w-12 h-12 text-neon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
           </div>
-          <button onClick={generateRoutine} disabled={generating} className="btn-primary">
-            {generating ? 'Analizando tu perfil...' : '⚡ Generar mi Rutina'}
-          </button>
+          <h2 className="text-3xl font-display font-black text-white uppercase mb-4 tracking-tight">Activa tu potencial</h2>
+          <p className="text-slate-500 max-w-md mx-auto mb-10 text-lg">Nuestro algoritmo diseñará una sesión perfecta para hoy analizando tu nivel actual.</p>
+          <button onClick={generateRoutine} disabled={generating} className="btn-primary !px-16 !py-5">⚡ EMPEZAR AHORA</button>
         </div>
       ) : (
-        <>
-          {/* Routine Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-            <div className="card py-4 text-center">
-              <p className="text-slate-400 text-xs uppercase tracking-wider mb-1 font-semibold">IMC</p>
-              <p className="text-2xl font-bold font-display text-white">{routine.bmi}</p>
-              {routine.bmiCategory && BMI_INFO[routine.bmiCategory] && (
-                <p className={`text-xs font-semibold mt-1 ${BMI_INFO[routine.bmiCategory].color}`}>
-                  {BMI_INFO[routine.bmiCategory].label}
-                </p>
-              )}
+        <div className="space-y-16">
+          {/* Summary Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="card !p-6 text-center border-t-4 border-t-neon-blue">
+              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Tu IMC</div>
+              <div className="text-3xl font-display font-black text-white">{routine.bmi}</div>
+              <div className={`text-[10px] font-black mt-2 uppercase tracking-widest ${BMI_INFO[routine.bmiCategory]?.color || 'text-white'}`}>
+                {BMI_INFO[routine.bmiCategory]?.label || 'NORMAL'}
+              </div>
             </div>
-            <div className="card py-4 text-center">
-              <p className="text-slate-400 text-xs uppercase tracking-wider mb-1 font-semibold">Duración</p>
-              <p className="text-2xl font-bold font-display text-white">{routine.totalDuration}</p>
-              <p className="text-xs text-slate-500 mt-1">minutos</p>
+            <div className="card !p-6 text-center border-t-4 border-t-neon-green">
+              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Duración</div>
+              <div className="text-3xl font-display font-black text-white">{routine.totalDuration}</div>
+              <div className="text-[10px] font-black text-neon-green mt-2 uppercase tracking-widest">MINUTOS</div>
             </div>
-            <div className="card py-4 text-center">
-              <p className="text-slate-400 text-xs uppercase tracking-wider mb-1 font-semibold">Ejercicios</p>
-              <p className="text-2xl font-bold font-display text-white">{(routine.main || []).length}</p>
-              <p className="text-xs text-slate-500 mt-1">en bloque principal</p>
+            <div className="card !p-6 text-center border-t-4 border-t-neon-orange">
+              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Esfuerzo</div>
+              <div className="text-3xl font-display font-black text-white">RPE 8</div>
+              <div className="text-[10px] font-black text-neon-orange mt-2 uppercase tracking-widest">OBJETIVO</div>
             </div>
-            <div className="card py-4 text-center">
-              <p className="text-slate-400 text-xs uppercase tracking-wider mb-1 font-semibold">Fases</p>
-              <p className="text-2xl font-bold font-display text-white">4</p>
-              <p className="text-xs text-slate-500 mt-1">calentamiento → core → principal → calma</p>
+            <div className="card !p-6 text-center border-t-4 border-t-neon-pink">
+              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Estructura</div>
+              <div className="text-3xl font-display font-black text-white">4</div>
+              <div className="text-[10px] font-black text-neon-pink mt-2 uppercase tracking-widest">FASES</div>
             </div>
           </div>
 
-          {/* Training Type Banner */}
-          {routine.trainingType && (
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/5 border border-green-500/20 rounded-2xl p-4 mb-6 flex items-start gap-3">
-              <div className="p-2 bg-green-500/20 rounded-xl flex-shrink-0">
-                <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-green-400 font-bold text-sm">{routine.trainingType}</p>
-                {routine.bmiCategory && BMI_INFO[routine.bmiCategory] && (
-                  <p className="text-slate-400 text-xs mt-0.5">{BMI_INFO[routine.bmiCategory].desc}</p>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Progressive Overload Note */}
-          {routine.notes && (
-            <div className="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-4 mb-6 text-purple-300 text-sm">
-              {routine.notes}
-            </div>
-          )}
-
-          {/* Exercise Phases */}
-          {routine.warmup?.length > 0 && (
-            <PhaseSection title="🔥 Calentamiento (8-10 min) — Movilidad Dinámica" phase="warmup" exercises={routine.warmup} />
-          )}
-          {routine.core?.length > 0 && (
-            <PhaseSection title="🛡️ Core & Estabilidad (5 min) — Activación Lumbar" phase="core" exercises={routine.core} />
-          )}
-          {routine.main?.length > 0 && (
-            <PhaseSection title="⚡ Bloque Principal" phase="main" exercises={routine.main} />
-          )}
-          {routine.cooldown?.length > 0 && (
-            <PhaseSection title="❄️ Vuelta a la Calma (8-10 min) — Estiramientos Suaves" phase="cooldown" exercises={routine.cooldown} />
-          )}
-        </>
+          <div className="space-y-4">
+            {routine.warmup?.length > 0 && <PhaseSection title="Calentamiento Dinámico" phase="warmup" exercises={routine.warmup} filter={searchTerm} />}
+            {routine.core?.length > 0 && <PhaseSection title="Core & Estabilidad" phase="core" exercises={routine.core} filter={searchTerm} />}
+            {routine.main?.length > 0 && <PhaseSection title="Bloque de Potencia" phase="main" exercises={routine.main} filter={searchTerm} />}
+            {routine.cooldown?.length > 0 && <PhaseSection title="Vuelta a la Calma" phase="cooldown" exercises={routine.cooldown} filter={searchTerm} />}
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
 export default Routine;
+
