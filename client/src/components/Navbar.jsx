@@ -95,17 +95,21 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <div className="flex items-center gap-2 bg-slate-900/50 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md">
+            <div className="flex items-center gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-2xl shadow-inner">
               {navLinks.map(link => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${location.pathname === link.path
-                    ? 'bg-neon-green text-black shadow-lg shadow-neon-green/20'
+                  className={`px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.25em] transition-all duration-500 flex items-center gap-3 active:scale-95 ${location.pathname === link.path
+                    ? 'bg-neon-green text-black shadow-[0_0_20px_rgba(204,255,0,0.3)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                     }`}
                 >
-                  {location.pathname === link.path && link.icon}
+                  {location.pathname === link.path && (
+                    <div className="animate-pulse shadow-glow-green">
+                      {link.icon}
+                    </div>
+                  )}
                   {link.label}
                 </Link>
               ))}
@@ -147,10 +151,11 @@ const Navbar = () => {
       {/* Floating Action Button */}
       <button
         onClick={() => window.dispatchEvent(new CustomEvent('open-new-workout'))}
-        className="fab md:bottom-8 md:right-8 bottom-24 right-6 shadow-glow-green/30"
+        className="fab md:bottom-10 md:right-10 bottom-24 right-6 shadow-[0_0_30px_rgba(204,255,0,0.4)] animate-pulse hover:animate-none group"
       >
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        <div className="absolute inset-0 rounded-full bg-neon-green/20 animate-ping"></div>
+        <svg className="w-9 h-9 relative z-10 group-hover:rotate-90 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       </button>
 

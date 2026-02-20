@@ -95,100 +95,106 @@ const Dashboard = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <button
           onClick={() => navigate('/routine')}
-          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-green/30"
+          className="card-premium !p-8 flex flex-col items-center justify-center gap-5 group hover:border-neon-green/40 hover:scale-105 transition-all duration-500"
         >
-          <div className="w-12 h-12 rounded-2xl bg-neon-green/10 flex items-center justify-center text-neon-green group-hover:scale-110 transition-transform shadow-glow-green/5">
-            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-[1.5rem] bg-neon-green/10 flex items-center justify-center text-neon-green group-hover:bg-neon-green group-hover:text-black transition-all duration-500 shadow-glow-green/10">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Nueva Rutina</span>
+          <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Nueva Rutina</span>
         </button>
 
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('open-new-workout'))}
-          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-blue/30"
+          className="card-premium !p-8 flex flex-col items-center justify-center gap-5 group hover:border-neon-blue/40 hover:scale-105 transition-all duration-500"
         >
-          <div className="w-12 h-12 rounded-2xl bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:scale-110 transition-transform shadow-glow-blue/5">
-            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-[1.5rem] bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:bg-neon-blue group-hover:text-black transition-all duration-500 shadow-glow-blue/10">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
           </div>
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Log Sesión</span>
+          <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Log Sesión</span>
         </button>
 
         <button
           onClick={() => navigate('/progress')}
-          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-orange/30"
+          className="card-premium !p-8 flex flex-col items-center justify-center gap-5 group hover:border-neon-orange/40 hover:scale-105 transition-all duration-500"
         >
-          <div className="w-12 h-12 rounded-2xl bg-neon-orange/10 flex items-center justify-center text-neon-orange group-hover:scale-110 transition-transform shadow-glow-orange/5">
-            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-[1.5rem] bg-neon-orange/10 flex items-center justify-center text-neon-orange group-hover:bg-neon-orange group-hover:text-black transition-all duration-500 shadow-glow-orange/10">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Mis Números</span>
+          <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Mis Números</span>
         </button>
 
         <button
           onClick={() => navigate('/planning')}
-          className="card !p-6 flex flex-col items-center justify-center gap-4 group hover:border-neon-pink/30"
+          className="card-premium !p-8 flex flex-col items-center justify-center gap-5 group hover:border-neon-pink/40 hover:scale-105 transition-all duration-500"
         >
-          <div className="w-12 h-12 rounded-2xl bg-neon-pink/10 flex items-center justify-center text-neon-pink group-hover:scale-110 transition-transform shadow-glow-pink/5">
-            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-[1.5rem] bg-neon-pink/10 flex items-center justify-center text-neon-pink group-hover:bg-neon-pink group-hover:text-white transition-all duration-500 shadow-glow-pink/10">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Calendario</span>
+          <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Calendario</span>
         </button>
       </div>
 
       {/* Primary Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="card group border-l-4 border-l-neon-green">
-          <div className="flex justify-between items-start mb-6">
-            <div className="text-slate-400 font-black text-[11px] uppercase tracking-[0.2em]">Sesiones Totales</div>
-            <div className="w-10 h-10 rounded-full bg-neon-green/10 flex items-center justify-center text-neon-green group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="card-premium group border-l-4 border-l-neon-green h-full">
+          <div className="flex justify-between items-start mb-8">
+            <div className="text-slate-400 font-black text-[12px] uppercase tracking-[0.25em]">Sesiones Totales</div>
+            <div className="w-12 h-12 rounded-2xl bg-neon-green/10 flex items-center justify-center text-neon-green group-hover:scale-110 group-hover:shadow-glow-green/20 transition-all duration-500">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
           </div>
-          <div className="stat-value">{stats?.totalWorkouts || 0}</div>
-          <div className="mt-4 flex items-center gap-2 text-neon-green text-sm font-bold">
-            <span className="flex h-2 w-2 rounded-full bg-neon-green animate-pulse"></span>
+          <div className="stat-value text-neon-green drop-shadow-[0_0_15px_rgba(204,255,0,0.3)]">{stats?.totalWorkouts || 0}</div>
+          <div className="mt-6 flex items-center gap-3 text-neon-green text-sm font-black uppercase tracking-widest italic">
+            <span className="flex h-3 w-3 rounded-full bg-neon-green animate-ping shadow-glow-green"></span>
             En racha activa
           </div>
         </div>
 
-        <div className="card group border-l-4 border-l-neon-blue">
-          <div className="flex justify-between items-start mb-6">
-            <div className="text-slate-400 font-black text-[11px] uppercase tracking-[0.2em]">Minutos Activos</div>
-            <div className="w-10 h-10 rounded-full bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="card-premium group border-l-4 border-l-neon-blue h-full">
+          <div className="flex justify-between items-start mb-8">
+            <div className="text-slate-400 font-black text-[12px] uppercase tracking-[0.25em]">Minutos Activos</div>
+            <div className="w-12 h-12 rounded-2xl bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:scale-110 group-hover:shadow-glow-blue/20 transition-all duration-500">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
           </div>
-          <div className="stat-value">{stats?.totalMinutes || 0}</div>
-          <div className="mt-4 flex items-center gap-2 text-neon-blue text-sm font-bold">
+          <div className="stat-value text-neon-blue drop-shadow-[0_0_15px_rgba(0,204,255,0.3)]">{stats?.totalMinutes || 0}</div>
+          <div className="mt-6 flex items-center gap-3 text-neon-blue text-sm font-black uppercase tracking-widest italic">
             Entrenamiento constante
           </div>
         </div>
 
-        <div className="card group border-l-4 border-l-neon-orange">
-          <div className="flex justify-between items-start mb-6">
-            <div className="text-slate-400 font-black text-[11px] uppercase tracking-[0.2em]">Meta Actual</div>
-            <div className="w-10 h-10 rounded-full bg-neon-orange/10 flex items-center justify-center text-neon-orange group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="card-premium group border-l-4 border-l-neon-orange h-full relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-5">
+            <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+          </div>
+          <div className="flex justify-between items-start mb-8">
+            <div className="text-slate-400 font-black text-[12px] uppercase tracking-[0.25em]">Meta Actual</div>
+            <div className="w-12 h-12 rounded-2xl bg-neon-orange/10 flex items-center justify-center text-neon-orange group-hover:scale-110 group-hover:shadow-glow-orange/20 transition-all duration-500">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
           </div>
-          <div className="text-3xl font-display font-black text-white leading-tight uppercase tracking-tighter">
+          <div className="text-4xl md:text-5xl font-display font-black text-white leading-tight uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(255,102,0,0.2)]">
             {user?.goal ? goalLabels[user.goal] : 'SIN DEFINIR'}
           </div>
-          <div className="mt-4 text-neon-orange text-sm font-bold uppercase tracking-widest">
-            {stats?.completedPercentage || 65}% Completado
+          <div className="mt-6 text-neon-orange text-sm font-black uppercase tracking-widest flex items-center gap-3 italic">
+            <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-neon-orange shadow-glow-orange" style={{ width: `${stats?.completedPercentage || 65}%` }}></div>
+            </div>
+            {stats?.completedPercentage || 65}%
           </div>
         </div>
       </div>

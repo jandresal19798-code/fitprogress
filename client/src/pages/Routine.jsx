@@ -23,34 +23,36 @@ const PhaseIcon = ({ phase }) => {
 };
 
 const ExerciseCard = ({ exercise, index }) => (
-  <div className="group card !p-0 overflow-hidden hover:border-neon-green/30">
-    <div className="relative h-48">
+  <div className="group card-premium !p-0 overflow-hidden hover:border-neon-green/40 hover:scale-105 transition-all duration-500">
+    <div className="relative h-56">
       <img
         src={exercise.image || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop"}
         alt={exercise.name}
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100"
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-[0.7] group-hover:brightness-100"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-      <div className="absolute top-4 left-4 w-8 h-8 bg-neon-green text-black rounded-lg flex items-center justify-center font-black text-sm shadow-glow-green">
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+      <div className="absolute top-6 left-6 w-10 h-10 bg-neon-green text-black rounded-xl flex items-center justify-center font-black text-lg shadow-glow-green">
         {index + 1}
       </div>
       {exercise.muscleGroup && (
-        <span className="absolute top-4 right-4 text-[10px] font-black bg-black/60 backdrop-blur-md text-neon-green px-3 py-1 rounded-full border border-neon-green/30 uppercase tracking-widest">
+        <span className="absolute top-6 right-6 text-[10px] font-black bg-black/80 backdrop-blur-xl text-neon-green px-4 py-2 rounded-xl border border-neon-green/30 uppercase tracking-[0.2em] shadow-2xl">
           {exercise.muscleGroup}
         </span>
       )}
     </div>
-    <div className="p-6 space-y-4">
-      <h4 className="font-display font-black text-white text-lg leading-tight uppercase tracking-tight">{exercise.name}</h4>
-      <div className="flex flex-wrap gap-2">
-        {exercise.sets && <span className="text-[10px] font-black bg-slate-800 text-slate-400 px-3 py-1 rounded-lg uppercase tracking-widest">{exercise.sets} SERIES</span>}
-        {exercise.reps && <span className="text-[10px] font-black bg-neon-green/10 text-neon-green px-3 py-1 rounded-lg uppercase tracking-widest border border-neon-green/20">{exercise.reps}</span>}
+    <div className="p-8 space-y-6">
+      <h4 className="font-display font-black text-white text-xl leading-tight uppercase tracking-tight">{exercise.name}</h4>
+      <div className="flex flex-wrap gap-3">
+        {exercise.sets && <span className="text-[10px] font-black bg-slate-900 text-slate-400 px-4 py-1.5 rounded-xl uppercase tracking-widest border border-white/5">{exercise.sets} SERIES</span>}
+        {exercise.reps && <span className="text-[10px] font-black bg-neon-green/10 text-neon-green px-4 py-1.5 rounded-xl uppercase tracking-widest border border-neon-green/20 shadow-glow-green/5">{exercise.reps}</span>}
       </div>
-      <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{exercise.description || 'Enfoque en técnica perfecta y control muscular.'}</p>
+      <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 italic font-medium">"{exercise.description || 'Domina la técnica, domina el mundo.'}"</p>
       {exercise.youtubeLink && (
-        <a href={exercise.youtubeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-neon-pink font-black text-[10px] uppercase tracking-widest hover:text-white transition-colors group/link pt-2">
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
-          <span className="underline decoration-2 underline-offset-4 decoration-neon-pink/30 group-hover/link:decoration-white">Ver Tutorial</span>
+        <a href={exercise.youtubeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-neon-pink font-black text-[11px] uppercase tracking-widest hover:text-white transition-all group/link pt-2 active:scale-95">
+          <div className="w-8 h-8 rounded-lg bg-neon-pink/10 flex items-center justify-center group-hover/link:bg-neon-pink group-hover/link:text-black transition-all">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+          </div>
+          <span className="underline decoration-2 underline-offset-4 decoration-neon-pink/30 group-hover/link:decoration-white">Vídeo Tutorial</span>
         </a>
       )}
     </div>
@@ -75,27 +77,29 @@ const PhaseSection = ({ title, phase, exercises, filter }) => {
   if (filteredExercises.length === 0) return null;
 
   return (
-    <div className="mb-10 group/phase">
+    <div className="mb-12 group/phase">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between p-6 rounded-3xl border ${phaseColors[phase]} mb-6 transition-all hover:scale-[1.01]`}
+        className={`w-full flex items-center justify-between p-8 rounded-[2rem] border-2 ${phaseColors[phase]} mb-8 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] shadow-2xl backdrop-blur-3xl`}
       >
-        <div className="flex items-center gap-4">
-          <PhaseIcon phase={phase} />
-          <div>
-            <span className="font-display font-black text-xl uppercase tracking-tighter block leading-none">{title}</span>
-            <span className="text-[10px] font-black opacity-60 uppercase tracking-[0.2em] mt-1">{filteredExercises.length} EJERCICIOS</span>
+        <div className="flex items-center gap-6">
+          <div className="w-14 h-14 rounded-2xl bg-current/10 flex items-center justify-center shadow-inner">
+            <PhaseIcon phase={phase} />
+          </div>
+          <div className="text-left">
+            <span className="font-display font-black text-2xl uppercase tracking-tighter block leading-none">{title}</span>
+            <span className="text-[11px] font-black opacity-60 uppercase tracking-[0.25em] mt-2 block">{filteredExercises.length} EJERCICIOS CONFIGURADOS</span>
           </div>
         </div>
-        <div className="w-10 h-10 rounded-full border border-current flex items-center justify-center transition-transform duration-500" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+        <div className="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center transition-transform duration-700 shadow-glow" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
       </button>
 
       {isOpen && (
-        <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {filteredExercises.map((ex, idx) => (
             <ExerciseCard key={idx} exercise={ex} index={idx} />
           ))}

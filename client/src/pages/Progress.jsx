@@ -77,13 +77,15 @@ const Progress = () => {
       </header>
 
       {/* Tabs / Navigation */}
-      <div className="overflow-x-auto pb-4 custom-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-        <div className="flex gap-2 p-1.5 bg-slate-900/50 rounded-2xl border border-white/5 backdrop-blur-md w-fit whitespace-nowrap">
+      <div className="overflow-x-auto pb-6 custom-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex gap-2 p-2 bg-slate-900/40 rounded-[1.5rem] border border-white/5 backdrop-blur-2xl w-fit whitespace-nowrap shadow-inner">
           {['evolución', 'historial', 'fotos'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 md:px-8 py-2.5 rounded-xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] transition-all ${activeTab === tab ? 'bg-neon-blue text-black shadow-glow-blue' : 'text-slate-500 hover:text-white'}`}
+              className={`px-10 py-3 rounded-xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.25em] transition-all duration-500 scale-95 hover:scale-100 ${activeTab === tab
+                ? 'bg-neon-blue text-black shadow-[0_0_25px_rgba(0,204,255,0.4)]'
+                : 'text-slate-500 hover:text-white hover:bg-white/5'}`}
             >
               {tab}
             </button>
@@ -94,26 +96,27 @@ const Progress = () => {
       {activeTab === 'evolución' && (
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Chart Card */}
-          <div className="card lg:col-span-2 relative overflow-hidden group">
-            <div className="flex justify-between items-center mb-10">
+          <div className="card-premium lg:col-span-2 relative overflow-hidden group">
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-neon-blue/5 rounded-full blur-[80px]"></div>
+            <div className="flex justify-between items-center mb-12 relative z-10">
               <div>
-                <h2 className="text-xl font-display font-black text-white uppercase tracking-widest">Actividad Semanal</h2>
-                <p className="text-slate-500 text-xs mt-1">Minutos activos por día</p>
+                <h2 className="text-2xl font-display font-black text-white uppercase tracking-widest leading-none">Actividad Semanal</h2>
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2 ml-1">Análisis de intensidad diaria</p>
               </div>
-              <div className="text-neon-green text-xs font-black bg-neon-green/10 px-3 py-1 rounded-full border border-neon-green/20">
+              <div className="text-neon-blue text-[10px] font-black bg-neon-blue/10 px-4 py-2 rounded-xl border border-neon-blue/20 shadow-glow-blue/10 uppercase tracking-widest">
                 +15% ESTE MES
               </div>
             </div>
 
-            <div className="h-[320px] w-full">
+            <div className="h-[350px] w-full relative z-10">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData.length > 0 ? chartData : [
-                  { day: 'Lunes', minutes: 45 }, { day: 'Martes', minutes: 60 }, { day: 'Miércoles', minutes: 0 },
-                  { day: 'Jueves', minutes: 55 }, { day: 'Viernes', minutes: 90 }, { day: 'Sábado', minutes: 40 }, { day: 'Domingo', minutes: 0 }
+                  { day: 'Lun', minutes: 45 }, { day: 'Mar', minutes: 60 }, { day: 'Mié', minutes: 15 },
+                  { day: 'Jue', minutes: 55 }, { day: 'Vie', minutes: 90 }, { day: 'Sáb', minutes: 40 }, { day: 'Dom', minutes: 10 }
                 ]}>
                   <defs>
                     <linearGradient id="colorMinutes" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00ccff" stopOpacity={0.3} />
+                      <stop offset="5%" stopColor="#00ccff" stopOpacity={0.4} />
                       <stop offset="95%" stopColor="#00ccff" stopOpacity={0} />
                     </linearGradient>
                   </defs>
@@ -122,19 +125,20 @@ const Progress = () => {
                     dataKey="day"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 800 }}
-                    dy={10}
+                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 900 }}
+                    dy={15}
                   />
                   <YAxis hide />
-                  <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#00ccff', strokeWidth: 1, strokeDasharray: '5 5' }} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#00ccff', strokeWidth: 2, strokeDasharray: '6 6' }} />
                   <Area
                     type="monotone"
                     dataKey="minutes"
                     stroke="#00ccff"
-                    strokeWidth={4}
+                    strokeWidth={5}
                     fillOpacity={1}
                     fill="url(#colorMinutes)"
-                    animationDuration={2000}
+                    animationDuration={2500}
+                    animationEasing="ease-in-out"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -143,25 +147,38 @@ const Progress = () => {
 
           {/* Quick Stats Column */}
           <div className="space-y-8">
-            <div className="card bg-gradient-to-br from-neon-green/10 to-transparent border-neon-green/10">
-              <div className="text-[10px] text-neon-green font-black uppercase tracking-[0.2em] mb-4">Total Sesiones</div>
-              <div className="stat-value text-white">{stats?.totalWorkouts || 0}</div>
-              <div className="mt-4 flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-slate-900 bg-slate-800"></div>)}
+            <div className="card-premium group bg-gradient-to-br from-neon-green/5 to-transparent border-neon-green/10 h-full flex flex-col justify-between">
+              <div>
+                <div className="text-[10px] text-neon-green font-black uppercase tracking-[0.25em] mb-6 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-neon-green rounded-full shadow-glow-green"></div>
+                  Sesiones Totales
                 </div>
-                <span className="text-[10px] text-slate-500 font-bold uppercase">Miembros activos</span>
+                <div className="stat-value text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">{stats?.totalWorkouts || 0}</div>
+              </div>
+              <div className="mt-8 flex items-center gap-3">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4].map(i => <div key={i} className="w-8 h-8 rounded-full border-2 border-slate-950 bg-slate-800 shadow-xl overflow-hidden">
+                    <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="avatar" />
+                  </div>)}
+                </div>
+                <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Atletas activos</span>
               </div>
             </div>
 
-            <div className="card bg-gradient-to-br from-neon-orange/10 to-transparent border-neon-orange/10">
-              <div className="text-[10px] text-neon-orange font-black uppercase tracking-[0.2em] mb-4">Racha actual</div>
-              <div className="stat-value text-white">{stats?.streak || 12}</div>
-              <div className="mt-4 flex items-center gap-2 text-neon-orange font-bold text-xs uppercase italic tracking-widest">
-                <svg className="w-4 h-4 animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+            <div className="card-premium group bg-gradient-to-br from-neon-orange/5 to-transparent border-neon-orange/10 h-full flex flex-col justify-between overflow-hidden">
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-neon-orange/5 rounded-full blur-3xl"></div>
+              <div>
+                <div className="text-[10px] text-neon-orange font-black uppercase tracking-[0.25em] mb-6 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-neon-orange rounded-full shadow-glow-orange animate-pulse"></div>
+                  Racha actual
+                </div>
+                <div className="stat-value text-white drop-shadow-[0_0_15px_rgba(255,102,0,0.1)]">{stats?.streak || 12}</div>
+              </div>
+              <div className="mt-8 flex items-center gap-3 text-neon-orange font-black text-[11px] uppercase tracking-widest italic group-hover:translate-x-1 transition-transform">
+                <svg className="w-5 h-5 animate-bounce" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.4503-.43l-7 5A1 1 0 004 8.2v7a1 1 0 001 1h10a1 1 0 001-1V8.3l-2.605-5.747z" clipRule="evenodd" />
                 </svg>
-                Bestia en racha
+                Bestia Imparable
               </div>
             </div>
           </div>
