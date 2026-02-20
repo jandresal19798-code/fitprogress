@@ -11,7 +11,8 @@ const ChatBot = () => {
     const messagesEndRef = useRef(null);
 
     // Initialize Groq client
-    const groq = new Groq({ apiKey: import.meta.env.VITE_GROQ_API_KEY, dangerouslyAllowBrowser: true });
+    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+    const groq = apiKey ? new Groq({ apiKey, dangerouslyAllowBrowser: true }) : null;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -24,6 +25,12 @@ const ChatBot = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!input.trim()) return;
+
+        if (!groq) {
+            setMessages(prev => [...prev, { role: 'user', content: input }, { role: 'assistant', content: 'IA no configurada. Por favor, añade VITE_GROQ_API_KEY.' }]);
+            setInput('');
+            return;
+        }
 
         const userMessage = { role: 'user', content: input };
         setMessages(prev => [...prev, userMessage]);

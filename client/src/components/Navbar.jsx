@@ -56,6 +56,30 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Mobile Top Header (New) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 md:hidden bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-3 px-6">
+        <div className="flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-neon-green rounded-lg flex items-center justify-center shadow-glow-green/20">
+              <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <span className="text-xl font-display font-black tracking-tighter text-white">
+              FIT<span className="text-neon-green">PROGRESS</span>
+            </span>
+          </Link>
+          <button
+            onClick={logout}
+            className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-slate-400 hover:text-white border border-white/5 transition-all active:scale-95"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
       {/* Desktop Top Navbar */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden md:block ${scrolled ? 'py-4 bg-slate-950/80 backdrop-blur-xl border-b border-white/5' : 'py-6 bg-transparent'}`}>
         <div className="container mx-auto px-8">
@@ -123,15 +147,15 @@ const Navbar = () => {
       {/* Floating Action Button */}
       <button
         onClick={() => window.dispatchEvent(new CustomEvent('open-new-workout'))}
-        className="fab md:bottom-8 md:right-8"
+        className="fab md:bottom-8 md:right-8 bottom-24 right-6 shadow-glow-green/30"
       >
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       </button>
 
-      {/* Spacer for top nav on desktop */}
-      <div className="h-24 hidden md:block"></div>
+      {/* Spacer for top nav */}
+      <div className="h-20 md:h-24"></div>
     </>
   );
 };

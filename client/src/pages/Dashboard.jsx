@@ -193,9 +193,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Profile Update */}
-        <div className="card lg:col-span-1">
+        <div className="card md:col-span-1 lg:col-span-1">
           <h2 className="text-xl font-display font-black text-white uppercase tracking-widest mb-8 flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-neon-green shadow-glow-green"></span>
             Mi Estado
