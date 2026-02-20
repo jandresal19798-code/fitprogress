@@ -186,27 +186,49 @@ const Progress = () => {
       )}
 
       {activeTab === 'historial' && (
-        <div className="grid gap-6">
+        <div className="grid gap-8">
           {workouts.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-8">
               {workouts.map((w, i) => (
-                <div key={i} className="card group hover:border-neon-blue/30">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-[10px] font-black text-neon-blue uppercase tracking-widest bg-neon-blue/10 px-3 py-1 rounded-full">{w.type}</span>
-                    <span className="text-[10px] font-bold text-slate-500">{new Date(w.date).toLocaleDateString()}</span>
-                  </div>
-                  <p className="text-white font-bold h-12 line-clamp-2 mb-6">{w.notes || 'SIn notas registradas'}</p>
-                  <div className="flex items-end justify-between border-t border-white/5 pt-6">
-                    <div>
-                      <div className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none mb-1">Duración</div>
-                      <div className="text-2xl font-display font-black text-white">{w.duration}<span className="text-xs ml-1 text-slate-500">min</span></div>
+                <div key={i} className="card-premium group hover:border-neon-blue/40 transition-all duration-500">
+                  <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-black text-neon-blue uppercase tracking-[0.3em] bg-neon-blue/10 px-4 py-1.5 rounded-xl border border-neon-blue/20">
+                          {w.type}
+                        </span>
+                        {w.rpe && (
+                          <span className="text-[10px] font-black text-neon-orange uppercase tracking-[0.3em] bg-neon-orange/10 px-4 py-1.5 rounded-xl border border-neon-orange/20">
+                            RPE {w.rpe}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-2xl font-display font-black text-white uppercase tracking-tighter mt-4 italic">"{w.notes || 'Sin límites, solo progreso.'}"</h3>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-slate-950 flex items-center justify-center text-slate-500 group-hover:text-neon-blue transition-colors">
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                      </svg>
+                    <div className="text-right">
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{new Date(w.date).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                      <div className="text-3xl font-display font-black text-neon-blue">{w.duration}<span className="text-xs ml-1 text-slate-500 uppercase tracking-widest">min</span></div>
                     </div>
                   </div>
+
+                  {w.exercises && w.exercises.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-white/5 pt-8">
+                      {w.exercises.map((ex, exIdx) => (
+                        <div key={exIdx} className="bg-slate-950/50 p-6 rounded-3xl border border-white/5 hover:border-white/10 transition-all group/ex">
+                          <div className="text-[10px] font-black text-neon-green uppercase tracking-widest mb-2 opacity-60 group-hover/ex:opacity-100 transition-opacity">EJERCICIO {exIdx + 1}</div>
+                          <div className="text-lg font-display font-black text-white uppercase mb-4 leading-tight">{ex.name}</div>
+                          <div className="space-y-2">
+                            {ex.sets.map((set, setIdx) => (
+                              <div key={setIdx} className="flex justify-between items-center text-[11px] font-bold text-slate-400 bg-white/5 px-4 py-2 rounded-xl">
+                                <span className="text-slate-600">SET {setIdx + 1}</span>
+                                <span>{set.reps} reps <span className="text-slate-600">@</span> {set.weight}kg</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

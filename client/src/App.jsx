@@ -12,6 +12,7 @@ import Planning from './pages/Planning';
 import Navbar from './components/Navbar';
 import ChatBot from './components/ChatBot';
 import Onboarding from './components/Onboarding';
+import WorkoutLogModal from './components/WorkoutLogModal';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -98,6 +99,7 @@ function App() {
       </Routes>
 
       {user && <ChatBot />}
+      {user && <WorkoutLogModal />}
     </div>
   );
 }

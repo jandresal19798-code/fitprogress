@@ -2,15 +2,28 @@ const User = require('../models/User');
 
 exports.logWorkout = async (req, res) => {
   try {
-    const { type, duration, notes } = req.body;
-    
+    const { type, duration, notes, exercises, rpe } = req.body;
     const user = await User.findById(req.user.id);
-    user.workouts.push({ type, duration, notes });
-    await user.save();
 
+    user.workouts.push({
+      type,
+      duration,
+      notes,
+      exercises,
+      rpe,
+      date: new Date()
+    });
+
+    // Mark day as completed for calendar
+    const today = new Date().toISOString().split('T')[0];
+    if (!user.completedDays.includes(today)) {
+      user.completedDays.push(today);
+    }
+
+    await user.save();
     res.json(user.workouts);
   } catch (err) {
-    res.status(500).json({ msg: 'Error del servidor', error: err.message });
+    res.status(500).json({ msg: 'Error al registrar sesión', error: err.message });
   }
 };
 
@@ -29,9 +42,9 @@ exports.getStats = async (req, res) => {
     const user = await User.findById(req.user.id);
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    
+
     const recentWorkouts = user.workouts.filter(w => new Date(w.date) >= weekAgo);
-    
+
     const dailyStats = {};
     recentWorkouts.forEach(w => {
       const date = new Date(w.date).toLocaleDateString('es-ES', { weekday: 'short' });

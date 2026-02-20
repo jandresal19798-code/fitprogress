@@ -22,57 +22,101 @@ const PhaseIcon = ({ phase }) => {
   );
 };
 
-const ExerciseCard = ({ exercise, index }) => (
-  <div className="group card-premium !p-0 overflow-hidden hover:border-neon-green/40 hover:scale-105 transition-all duration-500">
-    <div className="relative h-56">
+const ExerciseCard = ({ exercise, index, onWatchVideo }) => (
+  <div className="group card-premium !p-0 overflow-hidden hover:border-white/20 hover:scale-[1.03] transition-all duration-500 flex flex-col h-full">
+    <div className="relative h-60 overflow-hidden">
       <img
         src={exercise.image || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop"}
         alt={exercise.name}
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-[0.7] group-hover:brightness-100"
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s] ease-out brightness-[0.6] group-hover:brightness-90"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-      <div className="absolute top-6 left-6 w-10 h-10 bg-neon-green text-black rounded-xl flex items-center justify-center font-black text-lg shadow-glow-green">
+      <div className="absolute top-6 left-6 w-12 h-12 bg-neon-green text-black rounded-2xl flex items-center justify-center font-black text-xl shadow-[0_0_20px_rgba(204,255,0,0.3)] transform -rotate-3 group-hover:rotate-0 transition-transform">
         {index + 1}
       </div>
       {exercise.muscleGroup && (
-        <span className="absolute top-6 right-6 text-[10px] font-black bg-black/80 backdrop-blur-xl text-neon-green px-4 py-2 rounded-xl border border-neon-green/30 uppercase tracking-[0.2em] shadow-2xl">
+        <span className="absolute top-6 right-6 text-[10px] font-black bg-black/80 backdrop-blur-xl text-neon-green px-5 py-2.5 rounded-2xl border border-neon-green/30 uppercase tracking-[0.25em] shadow-2xl">
           {exercise.muscleGroup}
         </span>
       )}
-    </div>
-    <div className="p-8 space-y-6">
-      <h4 className="font-display font-black text-white text-xl leading-tight uppercase tracking-tight">{exercise.name}</h4>
-      <div className="flex flex-wrap gap-3">
-        {exercise.sets && <span className="text-[10px] font-black bg-slate-900 text-slate-400 px-4 py-1.5 rounded-xl uppercase tracking-widest border border-white/5">{exercise.sets} SERIES</span>}
-        {exercise.reps && <span className="text-[10px] font-black bg-neon-green/10 text-neon-green px-4 py-1.5 rounded-xl uppercase tracking-widest border border-neon-green/20 shadow-glow-green/5">{exercise.reps}</span>}
-      </div>
-      <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 italic font-medium">"{exercise.description || 'Domina la técnica, domina el mundo.'}"</p>
+
+      {/* Play Overlay */}
       {exercise.youtubeLink && (
-        <a href={exercise.youtubeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-neon-pink font-black text-[11px] uppercase tracking-widest hover:text-white transition-all group/link pt-2 active:scale-95">
-          <div className="w-8 h-8 rounded-lg bg-neon-pink/10 flex items-center justify-center group-hover/link:bg-neon-pink group-hover/link:text-black transition-all">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+        <button
+          onClick={() => onWatchVideo(exercise)}
+          className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        >
+          <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-transform duration-500">
+            <svg className="w-10 h-10 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
           </div>
-          <span className="underline decoration-2 underline-offset-4 decoration-neon-pink/30 group-hover/link:decoration-white">Vídeo Tutorial</span>
-        </a>
+        </button>
+      )}
+    </div>
+    <div className="p-8 space-y-6 flex-1 flex flex-col">
+      <h4 className="font-display font-black text-white text-2xl leading-tight uppercase tracking-tighter group-hover:text-neon-green transition-colors">{exercise.name}</h4>
+      <div className="flex flex-wrap gap-3">
+        {exercise.sets && <span className="text-[10px] font-black bg-white/5 text-slate-400 px-5 py-2 rounded-xl uppercase tracking-widest border border-white/5">{exercise.sets} SERIES</span>}
+        {exercise.reps && <span className="text-[10px] font-black bg-neon-green/10 text-neon-green px-5 py-2 rounded-xl uppercase tracking-widest border border-neon-green/20 shadow-[0_0_15px_rgba(204,255,0,0.1)]">{exercise.reps}</span>}
+      </div>
+      <p className="text-slate-500 text-sm leading-relaxed italic font-medium flex-1">"{exercise.description || 'Domina la técnica, domina el mundo.'}"</p>
+      {exercise.youtubeLink && (
+        <button
+          onClick={() => onWatchVideo(exercise)}
+          className="flex items-center gap-4 text-neon-pink font-black text-[12px] uppercase tracking-[0.2em] hover:text-white transition-all group/link pt-4 border-t border-white/5 w-fit"
+        >
+          <div className="w-10 h-10 rounded-xl bg-neon-pink/10 flex items-center justify-center group-hover/link:bg-neon-pink group-hover/link:text-black transition-all shadow-glow-pink/10">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+          </div>
+          <span className="underline decoration-2 underline-offset-8 decoration-neon-pink/30 group-hover/link:decoration-white">VER TUTORIAL</span>
+        </button>
       )}
     </div>
   </div>
 );
 
-const PhaseSection = ({ title, phase, exercises, filter }) => {
+const VideoModal = ({ exercise, onClose }) => {
+  if (!exercise) return null;
+
+  // Convert search results to an embeddable query or just show the results in a friendly way
+  const videoUrl = exercise.youtubeLink.includes('watch?v=')
+    ? exercise.youtubeLink.replace('watch?v=', 'embed/')
+    : exercise.youtubeLink;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-12">
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-3xl animate-fade-in" onClick={onClose}></div>
+      <div className="relative w-full max-w-6xl aspect-video card-premium overflow-hidden animate-slide-up bg-black border-white/10">
+        <div className="absolute top-6 right-6 z-20">
+          <button onClick={onClose} className="btn-icon !bg-black/50 !backdrop-blur-xl">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <iframe
+          src={videoUrl}
+          title={exercise.name}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+          <h3 className="text-3xl font-display font-black text-white uppercase tracking-tighter">{exercise.name}</h3>
+          <p className="text-neon-green text-[10px] font-black uppercase tracking-[0.3em] mt-2">DÉJATE LA PIEL EN CADA REPETICIÓN</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ExercisePhase = ({ title, exercises, phase, onWatchVideo }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const filteredExercises = exercises || [];
 
   const phaseColors = {
-    warmup: 'border-neon-orange/20 text-neon-orange bg-neon-orange/5',
-    core: 'border-neon-pink/20 text-neon-pink bg-neon-pink/5',
-    main: 'border-neon-green/20 text-neon-green bg-neon-green/5',
-    cooldown: 'border-neon-blue/20 text-neon-blue bg-neon-blue/5',
+    warmup: 'border-neon-blue text-neon-blue shadow-glow-blue/20',
+    core: 'border-neon-orange text-neon-orange shadow-glow-orange/20',
+    main: 'border-neon-green text-neon-green shadow-glow-green/20',
+    cooldown: 'border-neon-pink text-neon-pink shadow-glow-pink/20'
   };
-
-  const filteredExercises = exercises.filter(ex =>
-    ex.name.toLowerCase().includes(filter.toLowerCase()) ||
-    ex.muscleGroup?.toLowerCase().includes(filter.toLowerCase())
-  );
 
   if (filteredExercises.length === 0) return null;
 
@@ -80,7 +124,7 @@ const PhaseSection = ({ title, phase, exercises, filter }) => {
     <div className="mb-12 group/phase">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between p-8 rounded-[2rem] border-2 ${phaseColors[phase]} mb-8 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] shadow-2xl backdrop-blur-3xl`}
+        className={`w-full flex items-center justify-between p-8 rounded-[2rem] border-2 ${phaseColors[phase]} mb-8 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] shadow-2xl backdrop-blur-3xl bg-slate-900/40`}
       >
         <div className="flex items-center gap-6">
           <div className="w-14 h-14 rounded-2xl bg-current/10 flex items-center justify-center shadow-inner">
@@ -101,7 +145,7 @@ const PhaseSection = ({ title, phase, exercises, filter }) => {
       {isOpen && (
         <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {filteredExercises.map((ex, idx) => (
-            <ExerciseCard key={idx} exercise={ex} index={idx} />
+            <ExerciseCard key={idx} exercise={ex} index={idx} onWatchVideo={onWatchVideo} />
           ))}
         </div>
       )}
@@ -118,6 +162,7 @@ const Routine = () => {
   const [rpeSubmitted, setRpeSubmitted] = useState(false);
   const [showRpe, setShowRpe] = useState(false);
   const [selectedRpe, setSelectedRpe] = useState(null);
+  const [activeVideo, setActiveVideo] = useState(null);
 
   const [stats, setStats] = useState(null);
 
@@ -270,65 +315,87 @@ const Routine = () => {
       {error && <div className="card !bg-neon-pink/10 border-neon-pink/20 text-neon-pink text-sm font-bold p-6 rounded-2xl animate-fade-in">{error}</div>}
 
       {!routine ? (
-        <div className="card text-center py-24 border-dashed border-2 border-white/10 group">
-          <div className="w-24 h-24 bg-neon-green/10 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform shadow-glow-green/5">
+        <div className="card-premium text-center py-24 border-dashed border-2 border-white/10 group">
+          <div className="w-24 h-24 bg-neon-green/10 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(204,255,0,0.1)]">
             <svg className="w-12 h-12 text-neon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-display font-black text-white uppercase mb-4 tracking-tight">Activa tu potencial</h2>
-          <p className="text-slate-500 max-w-md mx-auto mb-10 text-lg">Nuestro algoritmo diseñará una sesión perfecta para hoy analizando tu nivel actual.</p>
-          <button onClick={generateRoutine} disabled={generating} className="btn-primary !px-16 !py-5">⚡ EMPEZAR AHORA</button>
+          <h2 className="text-4xl font-display font-black text-white uppercase mb-4 tracking-tighter">Activa tu potencial</h2>
+          <p className="text-slate-500 max-w-sm mx-auto mb-10 text-lg font-medium">Nuestro algoritmo diseñará una sesión perfecta para hoy analizando tu nivel actual.</p>
+          <button onClick={generateRoutine} disabled={generating} className="btn-primary !px-16 !py-6">⚡ {generating ? 'ANALIZANDO PERFIL...' : 'EMPEZAR AHORA'}</button>
         </div>
       ) : (
         <div className="space-y-16">
           {/* Summary Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="card !p-6 text-center border-t-4 border-t-neon-blue">
-              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Tu IMC</div>
-              <div className="text-3xl font-display font-black text-white">{routine.bmi}</div>
-              <div className={`text-[10px] font-black mt-2 uppercase tracking-widest ${BMI_INFO[routine.bmiCategory]?.color || 'text-white'}`}>
+            <div className="card-premium !p-8 text-center border-t-4 border-t-neon-blue h-full flex flex-col justify-center shadow-lg">
+              <div className="text-[11px] text-slate-500 font-black uppercase tracking-[0.25em] mb-4 leading-none">Tu IMC</div>
+              <div className="text-4xl font-display font-black text-white drop-shadow-glow-blue">{routine.bmi}</div>
+              <div className={`text-[10px] font-black mt-4 uppercase tracking-widest ${BMI_INFO[routine.bmiCategory]?.color || 'text-white'}`}>
                 {BMI_INFO[routine.bmiCategory]?.label || 'NORMAL'}
               </div>
             </div>
-            <div className="card !p-6 text-center border-t-4 border-t-neon-green">
-              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Duración</div>
-              <div className="text-3xl font-display font-black text-white">{routine.totalDuration}</div>
-              <div className="text-[10px] font-black text-neon-green mt-2 uppercase tracking-widest">MINUTOS</div>
+            <div className="card-premium !p-8 text-center border-t-4 border-t-neon-green h-full flex flex-col justify-center shadow-lg">
+              <div className="text-[11px] text-slate-500 font-black uppercase tracking-[0.25em] mb-4 leading-none">Duración</div>
+              <div className="text-4xl font-display font-black text-white drop-shadow-glow-green">{routine.totalDuration}</div>
+              <div className="text-[10px] font-black text-neon-green mt-4 uppercase tracking-widest">MINUTOS</div>
             </div>
-            <div className="card !p-6 text-center border-t-4 border-t-neon-orange">
-              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Último RPE</div>
-              <div className="text-3xl font-display font-black text-white">{selectedRpe || 'N/A'}</div>
-              <div className="text-[10px] font-black text-neon-orange mt-2 uppercase tracking-widest">ESFUERZO</div>
+            <div className="card-premium !p-8 text-center border-t-4 border-t-neon-orange h-full flex flex-col justify-center shadow-lg">
+              <div className="text-[11px] text-slate-500 font-black uppercase tracking-[0.25em] mb-4 leading-none">Último RPE</div>
+              <div className="text-4xl font-display font-black text-white drop-shadow-glow-orange">{selectedRpe || 'N/A'}</div>
+              <div className="text-[10px] font-black text-neon-orange mt-4 uppercase tracking-widest">ESFUERZO</div>
             </div>
-            <div className="card !p-6 text-center border-t-4 border-t-neon-pink">
-              <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2 leading-none">Estructura</div>
-              <div className="text-3xl font-display font-black text-white">4</div>
-              <div className="text-[10px] font-black text-neon-pink mt-2 uppercase tracking-widest">FASES</div>
+            <div className="card-premium !p-8 text-center border-t-4 border-t-neon-pink h-full flex flex-col justify-center shadow-lg">
+              <div className="text-[11px] text-slate-500 font-black uppercase tracking-[0.25em] mb-4 leading-none">Estructura</div>
+              <div className="text-4xl font-display font-black text-white drop-shadow-glow-pink">4</div>
+              <div className="text-[10px] font-black text-neon-pink mt-4 uppercase tracking-widest">FASES</div>
             </div>
           </div>
 
           {/* Progressive Overload Note */}
           {routine.notes && (
-            <div className="card !bg-neon-pink/5 border-neon-pink/10 p-6 flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-xl bg-neon-pink/20 flex items-center justify-center text-neon-pink shadow-glow-pink/10 flex-shrink-0">
+            <div className="card-premium !bg-neon-pink/5 border-neon-pink/10 p-8 flex gap-6 items-start animate-fade-in shadow-inner">
+              <div className="w-12 h-12 rounded-2xl bg-neon-pink/20 flex items-center justify-center text-neon-pink shadow-glow-pink/20 flex-shrink-0 border border-neon-pink/20">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
               <div>
-                <div className="text-[10px] text-neon-pink font-black uppercase tracking-widest mb-1">Nota del Algoritmo: Sobrecarga Progresiva</div>
-                <p className="text-slate-300 text-sm italic">{routine.notes}</p>
+                <div className="text-[11px] text-neon-pink font-black uppercase tracking-[0.2em] mb-2">Nota del Algoritmo: Sobrecarga Progresiva</div>
+                <p className="text-slate-400 text-base italic leading-relaxed">{routine.notes}</p>
               </div>
             </div>
           )}
 
           <div className="space-y-4">
-            {routine.warmup?.length > 0 && <PhaseSection title="Calentamiento Dinámico" phase="warmup" exercises={routine.warmup} filter={searchTerm} />}
-            {routine.core?.length > 0 && <PhaseSection title="Core & Estabilidad" phase="core" exercises={routine.core} filter={searchTerm} />}
-            {routine.main?.length > 0 && <PhaseSection title="Bloque de Potencia" phase="main" exercises={routine.main} filter={searchTerm} />}
-            {routine.cooldown?.length > 0 && <PhaseSection title="Vuelta a la Calma" phase="cooldown" exercises={routine.cooldown} filter={searchTerm} />}
+            <ExercisePhase
+              title="Calentamiento Dinámico"
+              exercises={routine.warmup?.filter(ex => ex.name.toLowerCase().includes(searchTerm.toLowerCase()))}
+              phase="warmup"
+              onWatchVideo={setActiveVideo}
+            />
+            <ExercisePhase
+              title="Activación Core"
+              exercises={routine.core?.filter(ex => ex.name.toLowerCase().includes(searchTerm.toLowerCase()))}
+              phase="core"
+              onWatchVideo={setActiveVideo}
+            />
+            <ExercisePhase
+              title="Bloque de Potencia"
+              exercises={routine.main?.filter(ex => ex.name.toLowerCase().includes(searchTerm.toLowerCase()))}
+              phase="main"
+              onWatchVideo={setActiveVideo}
+            />
+            <ExercisePhase
+              title="Vuelta a la Calma"
+              exercises={routine.cooldown?.filter(ex => ex.name.toLowerCase().includes(searchTerm.toLowerCase()))}
+              phase="cooldown"
+              onWatchVideo={setActiveVideo}
+            />
           </div>
         </div>
       )}
+
+      <VideoModal exercise={activeVideo} onClose={() => setActiveVideo(null)} />
     </div>
   );
 };

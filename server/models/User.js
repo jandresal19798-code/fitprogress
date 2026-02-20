@@ -32,7 +32,14 @@ const userSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now },
     type: { type: String },
     duration: Number,
-    rpe: { type: Number, min: 1, max: 10 }, // Rate of Perceived Exertion
+    rpe: { type: Number, min: 1, max: 10 },
+    exercises: [{
+      name: String,
+      sets: [{
+        reps: { type: Number },
+        weight: { type: Number } // kg
+      }]
+    }],
     notes: String
   }],
   completedDays: [{ type: String }], // format: "YYYY-MM-DD"
