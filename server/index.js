@@ -42,7 +42,8 @@ const startServer = async () => {
     await mongoose.connect(DB_URL);
     console.log('Conectado a MongoDB');
   } catch (err) {
-    console.log('No se pudo conectar a MongoDB local/remoto. Iniciando base de datos en memoria...');
+    console.error('Error de conexión a MongoDB:', err.message);
+    console.log('Iniciando base de datos en memoria...');
     try {
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
