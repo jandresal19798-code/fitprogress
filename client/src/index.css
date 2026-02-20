@@ -16,8 +16,7 @@
 
   h1,
   h2,
-  h3,
-  .font-display {
+  h3 {
     @apply font-display tracking-tight;
   }
 }
