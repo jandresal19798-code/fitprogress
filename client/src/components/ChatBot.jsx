@@ -62,42 +62,48 @@ const ChatBot = () => {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:scale-110 transition-all duration-300 group"
+                className="fixed top-24 right-6 z-50 w-14 h-14 bg-neon-green text-black rounded-2xl shadow-glow-green/20 hover:shadow-glow-green/40 hover:scale-110 transition-all duration-300 group flex items-center justify-center border border-white/10"
             >
                 {isOpen ? (
-                    <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 ) : (
-                    <svg className="w-8 h-8 text-white animate-pulse-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
+                    <div className="relative">
+                        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-slate-950"></span>
+                        </span>
+                    </div>
                 )}
             </button>
 
             {isOpen && (
-                <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-50 flex flex-col transition-all duration-300 animate-slide-up origin-bottom-right">
-                    <div className="p-4 border-b border-white/10 bg-gradient-to-r from-slate-900 to-slate-800 rounded-t-2xl flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-tr from-green-500 to-emerald-400 rounded-full flex items-center justify-center shadow-lg shadow-green-500/20">
-                            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <div className="fixed top-40 right-6 w-80 md:w-96 h-[500px] max-h-[70vh] bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl z-50 flex flex-col transition-all duration-300 animate-slide-up origin-top-right">
+                    <div className="p-6 border-b border-white/5 bg-slate-950/50 rounded-t-[2rem] flex items-center gap-4">
+                        <div className="w-12 h-12 bg-neon-green/10 text-neon-green rounded-xl flex items-center justify-center shadow-glow-green/5 border border-neon-green/20">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
                         <div>
-                            <h3 className="font-bold text-white font-display">Fit Assistant</h3>
-                            <p className="text-xs text-green-400 flex items-center gap-1 font-medium">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                En línea (IA)
+                            <h3 className="font-display font-black text-white uppercase tracking-tight">Fit Assistant</h3>
+                            <p className="text-[10px] text-neon-green flex items-center gap-1.5 font-black uppercase tracking-widest mt-0.5">
+                                <span className="w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse shadow-glow-green"></span>
+                                Online
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                    <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar bg-transparent">
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
-                                    ? 'bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-tr-sm shadow-md'
-                                    : 'bg-slate-800 text-slate-200 rounded-tl-sm border border-white/5 shadow-sm'
+                                <div className={`max-w-[85%] p-4 rounded-2xl text-[13px] font-medium leading-relaxed ${msg.role === 'user'
+                                    ? 'bg-neon-green text-black rounded-tr-none shadow-glow-green/10'
+                                    : 'bg-slate-800/80 text-white rounded-tl-none border border-white/5'
                                     }`}>
                                     {msg.content}
                                 </div>
@@ -105,39 +111,36 @@ const ChatBot = () => {
                         ))}
                         {loading && (
                             <div className="flex justify-start">
-                                <div className="bg-slate-800 p-4 rounded-2xl rounded-tl-sm border border-white/5 shadow-sm flex gap-1.5">
-                                    <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce"></span>
-                                    <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce delay-100"></span>
-                                    <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce delay-200"></span>
+                                <div className="bg-slate-800/80 p-4 rounded-2xl rounded-tl-none border border-white/5 flex gap-1.5">
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></span>
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-100"></span>
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-200"></span>
                                 </div>
                             </div>
                         )}
                         <div ref={messagesEndRef} />
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-slate-900/50 rounded-b-2xl backdrop-blur-md">
+                    <form onSubmit={handleSubmit} className="p-6 border-t border-white/5 bg-slate-950/50 rounded-b-[2rem]">
                         <div className="flex gap-2 relative">
                             <input
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Pregunta sobre tu entrenamiento..."
-                                className="w-full bg-slate-800/80 border border-slate-700 hover:border-slate-600 focus:border-green-500/50 rounded-xl pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all placeholder-slate-500"
+                                placeholder="¿Duda sobre entrenamiento?"
+                                className="input !py-4 !pl-6 !pr-14 !bg-slate-900 border-white/5 focus:border-neon-green/30 text-xs font-bold uppercase tracking-widest"
                                 disabled={loading}
                             />
                             <button
                                 type="submit"
                                 disabled={loading || !input.trim()}
-                                className="absolute right-2 top-1.5 p-1.5 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/20 hover:scale-105 active:scale-95"
+                                className="absolute right-2 top-2 w-10 h-10 bg-neon-green hover:bg-[#d9ff33] text-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg active:scale-95"
                             >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 12h14M12 5l7 7-7 7" />
                                 </svg>
                             </button>
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-2 text-center font-medium tracking-wide">
-                            Powered by Groq AI • Mixtral Model
-                        </p>
                     </form>
                 </div>
             )}
